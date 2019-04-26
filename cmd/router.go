@@ -8,5 +8,8 @@ import (
 
 func createRouter(svc course.Service, logger *zap.Logger) chi.Router {
 	router := chi.NewRouter()
+	router.Use(contextMiddleware)
+	router.With(accessLogMiddleware(logger))
+
 	return router
 }

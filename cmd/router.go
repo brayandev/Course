@@ -1,11 +1,11 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/Course/course"
+	"github.com/go-chi/chi"
 )
 
-func createRouter(svc course.Service) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {}
+func createRouter(svc course.Service) chi.Router {
+	router := chi.NewRouter()
+	return router
 }

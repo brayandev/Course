@@ -18,8 +18,7 @@ type Config struct {
 
 func newConfig() *Config {
 	cfg := &Config{}
-	err := envconfig.Process("local.env", cfg)
-	if err != nil {
+	if err := envconfig.Process("", cfg); err != nil {
 		log.Fatal(err)
 	}
 	return cfg

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
+
+	"go.uber.org/zap"
 
 	"github.com/Course/course"
 
@@ -13,10 +14,15 @@ import (
 func main() {
 	cfg := newConfig()
 
+	logger, lErr := course.ConfigLog(zap.NewAtomicLevelAt(cfg.LogLevel.Value)).Build()
+	if lErr != nil {
+		panic(lErr)
+	}
+
 	repository := course.NewRepository()
 	service := course.NewService(repository)
 
-	router := createRouter(service)
+	router := createRouter(service, logger)
 	sErr := gracehttp.Serve(&http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.AppPort),
 		Handler:      router,
@@ -24,6 +30,6 @@ func main() {
 		WriteTimeout: cfg.ServerHTTPWriteTimeout,
 	})
 	if sErr != nil {
-		log.Println("failed on start server.", sErr)
+		logger.Error("failed on server start", zap.NamedError("error", sErr))
 	}
 }

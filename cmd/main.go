@@ -21,7 +21,7 @@ func main() {
 
 	db, dbErr := course.NewMongoDB(cfg.MongoDBEndpoint)
 	if dbErr != nil {
-		logger.Error("Error to create a new connection for db", zap.NamedError("error", dbErr))
+		logger.Error("Error to create a new connection for db", zap.Error(dbErr))
 	}
 
 	repository := course.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName)

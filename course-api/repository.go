@@ -10,7 +10,7 @@ import (
 
 // Repository implements funcs of repository.
 type Repository interface {
-	createCourse(ctx context.Context, course Course) error
+	save(ctx context.Context, course Course) error
 }
 
 // RepositoryImpl as dependecies of repository.
@@ -30,7 +30,7 @@ func NewRepository(session *mgo.Session, dbName, dbCollection string) *Repositor
 	}
 }
 
-func (r *RepositoryImpl) createCourse(ctx context.Context, course Course) error {
+func (r *RepositoryImpl) save(ctx context.Context, course Course) error {
 	start := time.Now()
 	c := r.session.DB(r.dbName).C(r.dbCollection)
 

@@ -34,7 +34,7 @@ func (s *ServiceImpl) CreateCourse(ctx context.Context, course Course) (string, 
 	course.CourseID = courseID.String()
 	course.Creation = time.Now()
 
-	cErr := s.repository.createCourse(ctx, course)
+	cErr := s.repository.save(ctx, course)
 	if cErr != nil {
 		return "", cErr
 	}

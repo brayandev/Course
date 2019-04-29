@@ -24,3 +24,8 @@ type Lesson struct {
 	LessonDescription string    `bson:"lessonDescription" json:"lessonDescription"`
 	Creation          time.Time `bson:"creation" json:"creation"`
 }
+
+// Version represents lesson version.
+func (Lesson) Version() string {
+	return "course.lesson.v1"
+}

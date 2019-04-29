@@ -19,7 +19,12 @@ func main() {
 		panic(lErr)
 	}
 
-	repository := course.NewRepository()
+	db, dbErr := course.NewMongoDB(cfg.MongoDBEndpoint)
+	if dbErr != nil {
+		logger.Error("Error to create a new connection for db", zap.Error(dbErr))
+	}
+
+	repository := course.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName)
 	service := course.NewService(repository)
 
 	router := createRouter(service, logger)

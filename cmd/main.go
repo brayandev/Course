@@ -6,26 +6,25 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/Course/course"
-
+	api "github.com/Course/course-api"
 	"github.com/facebookgo/grace/gracehttp"
 )
 
 func main() {
 	cfg := newConfig()
 
-	logger, lErr := course.ConfigLog(zap.NewAtomicLevelAt(cfg.LogLevel.Value)).Build()
+	logger, lErr := api.ConfigLog(zap.NewAtomicLevelAt(cfg.LogLevel.Value)).Build()
 	if lErr != nil {
 		panic(lErr)
 	}
 
-	db, dbErr := course.NewMongoDB(cfg.MongoDBEndpoint)
+	db, dbErr := api.NewMongoDB(cfg.MongoDBEndpoint)
 	if dbErr != nil {
 		logger.Error("Error to create a new connection for db", zap.Error(dbErr))
 	}
 
-	repository := course.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName)
-	service := course.NewService(repository)
+	repository := api.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName)
+	service := api.NewService(repository)
 
 	router := createRouter(service, logger)
 	sErr := gracehttp.Serve(&http.Server{

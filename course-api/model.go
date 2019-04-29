@@ -1,4 +1,4 @@
-package course
+package api
 
 import "time"
 
@@ -10,6 +10,11 @@ type Course struct {
 	CourseDescription string    `bson:"courseDescription" json:"courseDescription"`
 	Lessons           []Lesson  `bson:"lessons" json:"lessons"`
 	Creation          time.Time `bson:"creation" json:"creation"`
+}
+
+// Version represents course version.
+func (Course) Version() string {
+	return "course.v1"
 }
 
 // Lesson represents a lesson of course.

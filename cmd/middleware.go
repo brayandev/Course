@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Course/course"
+	api "github.com/Course/course-api"
 	"github.com/gofrs/uuid"
 	"github.com/hirer-company/company"
 	"go.uber.org/zap"
@@ -40,8 +40,8 @@ func accessLogMiddleware(logger *zap.Logger) func(http.Handler) http.Handler {
 			next.ServeHTTP(lrw, r)
 
 			logger.Info("server access response",
-				zap.String("transaction-id", course.GetTransactionID(r.Context())),
-				zap.String("internal-id", course.GetInternalID(r.Context())),
+				zap.String("transaction-id", api.GetTransactionID(r.Context())),
+				zap.String("internal-id", api.GetInternalID(r.Context())),
 				zap.Int("code", lrw.statusCode),
 				zap.Duration("duration", time.Since(start)),
 				zap.String("uri", r.RequestURI),

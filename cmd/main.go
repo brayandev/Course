@@ -23,7 +23,7 @@ func main() {
 		logger.Error("Error to create a new connection for db", zap.Error(dbErr))
 	}
 
-	repository := api.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName)
+	repository := api.NewRepository(db, cfg.MongoDBName, cfg.MongoDBCollectionName, logger)
 	service := api.NewService(repository)
 
 	router := createRouter(service, logger)

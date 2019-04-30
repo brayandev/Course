@@ -22,11 +22,12 @@ type RepositoryImpl struct {
 }
 
 // NewRepository is a repository constructor.
-func NewRepository(session *mgo.Session, dbName, dbCollection string) *RepositoryImpl {
+func NewRepository(session *mgo.Session, dbName, dbCollection string, logger *zap.Logger) *RepositoryImpl {
 	return &RepositoryImpl{
 		session:      session,
 		dbName:       dbName,
 		dbCollection: dbCollection,
+		logger:       logger,
 	}
 }
 

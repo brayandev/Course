@@ -13,7 +13,7 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var course api.Course
 		route := "create-course"
-		err := json.NewDecoder(r.Body).Decode(course)
+		err := json.NewDecoder(r.Body).Decode(&course)
 		if err != nil {
 			writeError(w, err)
 			api.LogError(r.Context(), logger, route, "error on decode course", err)

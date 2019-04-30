@@ -41,5 +41,5 @@ func (e Error) Error() string {
 
 // Version represents a version of error.
 func (e Error) Version() string {
-	return "vnd.catho.company.error.v1"
+	return "course.error.v1"
 }

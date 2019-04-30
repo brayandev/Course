@@ -7,7 +7,6 @@ import (
 
 	api "github.com/Course/course-api"
 	"github.com/gofrs/uuid"
-	"github.com/hirer-company/company"
 	"go.uber.org/zap"
 )
 
@@ -63,7 +62,7 @@ func contextMiddleware(next http.Handler) http.Handler {
 		w.Header().Add("X-Internal-Id", internalID)
 		w.Header().Add("X-Transaction-Id", transactionID)
 
-		next.ServeHTTP(w, r.WithContext(context.WithValue(context.WithValue(r.Context(), company.ContextKeyTransactionID, transactionID), company.ContextKeyInternalID, internalID)))
+		next.ServeHTTP(w, r.WithContext(context.WithValue(context.WithValue(r.Context(), api.ContextKeyTransactionID, transactionID), api.ContextKeyInternalID, internalID)))
 	}
 	return http.HandlerFunc(fn)
 }

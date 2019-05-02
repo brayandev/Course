@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	api "github.com/Course/course-api"
 	"go.uber.org/zap"
@@ -19,13 +20,15 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 			api.LogError(r.Context(), logger, route, "invalid body request", err)
 			return
 		}
+		course.Creation = time.Now().UTC()
 		courseID, cErr := service.CreateCourse(r.Context(), course)
 		if cErr != nil {
 			writeError(w, cErr)
 			api.LogError(r.Context(), logger, route, "error on create course", cErr)
+			return
 		}
+		course.CourseID = courseID
 		writeResponse(w, http.StatusOK, course)
-		fmt.Println(courseID)
 	}
 }
 

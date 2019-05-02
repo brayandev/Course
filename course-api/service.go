@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"time"
 
 	"github.com/gofrs/uuid"
 )
@@ -32,7 +31,6 @@ func (s *ServiceImpl) CreateCourse(ctx context.Context, course Course) (string, 
 	}
 
 	course.CourseID = courseID.String()
-	course.Creation = time.Now()
 
 	cErr := s.repository.save(ctx, course)
 	if cErr != nil {

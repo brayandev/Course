@@ -16,7 +16,7 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&course)
 		if err != nil {
 			writeError(w, err)
-			api.LogError(r.Context(), logger, route, "error on decode course", err)
+			api.LogError(r.Context(), logger, route, "invalid body request", err)
 			return
 		}
 		courseID, cErr := service.CreateCourse(r.Context(), course)

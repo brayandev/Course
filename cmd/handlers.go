@@ -58,8 +58,8 @@ func writeError(w http.ResponseWriter, err error) {
 
 func getErrorHTTPCode(err *api.Error) int {
 	switch err.ErrType {
-	case api.ErrorUnknown:
-		return http.StatusInternalServerError
+	case api.ErrorInvalidRequest:
+		return http.StatusBadRequest
 
 	default:
 		return http.StatusInternalServerError

@@ -17,9 +17,11 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 		if err != nil {
 			writeError(w, err)
 			api.LogError(r.Context(), logger, route, "error on decode course", err)
+			return
 		}
 		courseID, cErr := service.CreateCourse(r.Context(), course)
 		if cErr != nil {
+			fmt.Println("DEU ERRO AKI>>>>>>>>>>>>>>>>>>>>>>")
 			writeError(w, cErr)
 			api.LogError(r.Context(), logger, route, "error on create course", cErr)
 		}

@@ -20,6 +20,9 @@ BIN_COURSE := course
 
 PKGS = $(shell $(GO) list ./...)
 
+ROOT_DIR := $(realpath .)
+CREATE_LOCAL_ENV := $(shell if [ ! -f "$(ROOT_DIR)/local.env" ]; then cp $(ROOT_DIR)/local.env.sample $(ROOT_DIR)/local.env; fi)
+
 usage: Makefile
 	@echo $(ECHOFLAGS) "to use make call:"
 	@echo $(ECHOFLAGS) "    make <action>"

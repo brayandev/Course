@@ -21,7 +21,6 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 		}
 		courseID, cErr := service.CreateCourse(r.Context(), course)
 		if cErr != nil {
-			fmt.Println("DEU ERRO AKI>>>>>>>>>>>>>>>>>>>>>>")
 			writeError(w, cErr)
 			api.LogError(r.Context(), logger, route, "error on create course", cErr)
 		}

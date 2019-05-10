@@ -8,7 +8,7 @@ type ErrorType int
 // ErrorType error type values.
 const (
 	ErrorUnknown ErrorType = iota
-	ErrorInvalidRequest
+	ErrorInvalidContent
 )
 
 // ErrorCodes
@@ -16,7 +16,7 @@ const (
 	ErrorCodeUnknown string = "CRS0000"
 
 	// Common error CRS1xxx.
-	ErrorCodeInvalidRequest string = "CRS1000"
+	ErrorCodeInvalidContent string = "CRS1000"
 )
 
 // Error representation of error.
@@ -36,9 +36,9 @@ func NewUnknownError(message string) *Error {
 	return NewError(ErrorCodeUnknown, message, ErrorUnknown)
 }
 
-// NewInvalidRequestError constructor of Invalid Request error.
-func NewInvalidRequestError(message string) *Error {
-	return NewError(ErrorCodeInvalidRequest, message, ErrorInvalidRequest)
+// NewInvalidContentError constructor of Invalid Request error.
+func NewInvalidContentError(message string) *Error {
+	return NewError(ErrorCodeInvalidContent, message, ErrorInvalidContent)
 }
 
 // Error return a string representation of and Error.

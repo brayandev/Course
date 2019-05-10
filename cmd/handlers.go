@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -14,7 +15,7 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var course api.Course
 		route := "create-course"
-		err := json.NewDecoder(r.Body).Decode(&course)
+		err := parseJSON(r.Body, &course)
 		if err != nil {
 			writeError(w, err)
 			api.LogError(r.Context(), logger, route, "invalid body request", err)
@@ -30,6 +31,14 @@ func createCourse(service api.Service, logger *zap.Logger) http.HandlerFunc {
 		course.CourseID = courseID
 		writeResponse(w, http.StatusOK, course)
 	}
+}
+
+func parseJSON(reader io.ReadCloser, out interface{}) error {
+	err := json.NewDecoder(reader).Decode(out)
+	if err != nil {
+		return api.NewInvalidContentError(fmt.Sprintf("could not parse body content, error: %s", err.Error()))
+	}
+	return nil
 }
 
 func writeResponse(w http.ResponseWriter, code int, content versionable) error {
@@ -61,7 +70,7 @@ func writeError(w http.ResponseWriter, err error) {
 
 func getErrorHTTPCode(err *api.Error) int {
 	switch err.ErrType {
-	case api.ErrorInvalidRequest:
+	case api.ErrorInvalidContent:
 		return http.StatusBadRequest
 
 	default:
